@@ -1,0 +1,228 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String?   @unique
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  imageUrl      String?   // Keeping legacy field if needed
+  role          Role      @default(WRITER)
+  
+  posts         Post[]
+  postViews     PostView[]
+  auditLogs     AuditLog[]
+  accounts      Account[]
+  sessions      Session[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([role])
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+
+model Post {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  excerpt     String?
+  content     Json
+  searchText  String
+  status      PostStatus  @default(DRAFT)
+  isPremium   Boolean     @default(false) 
+  isSponsored Boolean     @default(false)
+  
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id])
+
+  categories  PostCategory[]
+  images      Image[]
+  
+  bannerImageId String?    @unique
+  bannerImage   Image?     @relation("PostBanner", fields: [bannerImageId], references: [id])
+
+  views       PostView[]
+  auditLogs   AuditLog[]
+
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  pendingAction PendingAction?
+  editedByEditor Boolean        @default(false)
+  editedByAdmin  Boolean        @default(false)
+
+  originalPostId String?
+  originalPost   Post?   @relation("PostHistory", fields: [originalPostId], references: [id], onDelete: Cascade)
+  drafts         Post[]  @relation("PostHistory")
+
+  @@index([status, publishedAt])
+  @@index([authorId])
+}
+
+model Category {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  posts       PostCategory[]
+  createdAt   DateTime      @default(now())
+
+  @@index([slug])
+}
+
+model PostCategory {
+  postId      String
+  categoryId  String
+
+  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+  @@index([categoryId])
+}
+
+model Image {
+  id                  String    @id @default(cuid())
+  url                 String
+  cloudinaryPublicId  String?
+  alt                 String?
+  postId              String?
+  post                Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  bannerFor           Post?     @relation("PostBanner")
+  createdAt           DateTime  @default(now())
+
+  @@index([postId])
+}
+
+model PostView {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  ipUaHash  String
+  dayString String
+
+  userId    String?  
+  user      User?    @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([postId, dayString, ipUaHash])
+  @@index([postId, createdAt])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  postId    String?  
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  action    AuditAction
+  entity    AuditEntity
+  entityId  String?
+
+  metadata  Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity])
+  @@index([createdAt])
+}
+
+enum AuditAction {
+  POST_CREATED
+  POST_UPDATED
+  POST_PUBLISHED
+  POST_DELETED
+
+  USER_ROLE_CHANGED
+  USER_DELETED
+
+  CATEGORY_CREATED
+  CATEGORY_DELETED
+}
+
+enum AuditEntity {
+  POST
+  USER
+  CATEGORY
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  WRITER
+}
+
+enum PostStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  REJECTED
+}
+
+enum PendingAction {
+  EDIT_REQUEST
+  REMOVAL_REQUEST
+}

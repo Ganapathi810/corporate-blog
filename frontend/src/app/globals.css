@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-animate";
+
+:root {
+  --background: #414BEA;
+  /* --foreground: #171717; */ 
+
+}
+
+@theme inline {
+   --color-background: var(--background);
+  /* --color-foreground: var(--foreground); */ 
+  /* --font-poppins: var(--font-poppins); */
+
+  --animate-shimmer: shimmer 2.5s infinite linear;
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+::selection {
+  background-color: #bad2ff;
+  color: black;
+}
+
+body {
+  caret-color: #414BEA;
+  /* background: var(--background); */
+  /* background: var(--background);
+  color: var(--foreground); */
+   /* font-family: var(--font-poppins), sans-serif;  */
+}
+
+/* Tiptap Base Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 70vh;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.ProseMirror p {
+  margin: 0.75rem 0;
+}
+
+.ProseMirror > *:first-child {
+  margin-top: 0;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #cbd5e1; /* slate-300 */
+  margin: 2rem 0;
+  cursor: pointer;
+}
+
+.ProseMirror hr.ProseMirror-selectednode {
+  border-top-color: transparent;
+}
+
+.ProseMirror-selectednode {
+  @apply ring-2 ring-blue-500 rounded;
+}
+
+.ProseMirror-dropcursor {
+  @apply border-t-2 border-blue-500;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply float-left text-gray-400 pointer-events-none h-0;
+}
+
+.slash-command-suggestion {
+  @apply bg-blue-100/80 rounded px-2 py-0.5 text-blue-900 font-medium;
+}
+
+.slash-command-suggestion::after {
+  display: none;
+}
+
+.ProseMirror.slash-command-active.slash-command-empty .slash-command-suggestion::after {
+  content: "Filter...";
+  display: inline;
+  /* @apply text-blue-600/70 font-semibold ml-2; */
+  color: #3b82f6;      /* text-blue-600 */
+  font-weight: 600;    /* font-semibold */
+  margin-left: 0.2rem; /* ml-2 */
+  opacity: 0.7;   
+}
+
+
+.tiptap p.is-empty::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Inline Code Style */
+.ProseMirror code {
+  @apply bg-blue-100/60 text-gray-900 rounded px-1.5 py-0.5 font-mono text-[0.9em] border border-blue-200/50;
+}
+
+.ProseMirror code::before,
+.ProseMirror code::after {
+  content: "" !important;
+}
+
+/* Tiptap Table Styles */
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  min-width: 1em;
+  border: 1px solid #cbd5e1; /* slate-300 - slightly lighter cleaner border */
+  padding: 6px 10px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.ProseMirror td > *,
+.ProseMirror th > * {
+  margin: 0 !important;
+}
+
+.ProseMirror th {
+  font-weight: 600;
+  text-align: left;
+  background-color: #f1f5f9; /* slate-100 */
+}
+
+/* Selected cell styling - hidden in favor of TableCellHandle overlay */
+.ProseMirror .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: -1px; right: -1px; top: -1px; bottom: -1px;
+  /* Blue tint for selected/dragged cells (merge selection) */
+  background: rgba(59, 130, 246, 0.12);
+  border: none;
+  pointer-events: none;
+}
+
+/* Column resize handle */
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #3b82f6;
+  pointer-events: none;
+}
+
+.ProseMirror.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}

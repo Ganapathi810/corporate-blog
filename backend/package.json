@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Corporate blog server",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "prisma generate && tsc",
+    "postinstall": "prisma generate",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "@prisma/adapter-neon": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "@sentry/node": "^10.49.0",
+    "@types/cors": "^2.8.19",
+    "better-auth": "^1.5.4",
+    "cloudinary": "^2.9.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "multer": "^2.1.1",
+    "prisma": "^7.4.1",
+    "winston": "^3.19.0",
+    "ws": "^8.19.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.3.2",
+    "@types/ws": "^8.18.1",
+    "eslint": "^10.0.2",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  }
+}

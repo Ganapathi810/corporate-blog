@@ -1,0 +1,32 @@
+import { Sidebar } from "@/components/dashboard/sidebar";
+import { ProtectedTopbar } from "@/components/top-bar/private-top-bar";
+import { SidebarProvider } from "@/components/dashboard/sidebar-provider";
+import { headers } from "next/headers";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+
+export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
+    const { data: session } = await authClient.getSession({
+        fetchOptions: {
+            headers: await headers(), // Forward headers (including cookies) to check session on server
+        }
+    })
+
+    if (!session) {
+        redirect("/login")
+    }
+
+    return (
+        <SidebarProvider>
+            <div className="flex">
+                <Sidebar />
+                <div className="grow min-w-0">
+                    <ProtectedTopbar />
+                    <main className="px-9 py-1 max-w-7xl mx-auto">
+                        {children}
+                    </main>
+                </div>
+            </div>
+        </SidebarProvider>
+    )
+}
