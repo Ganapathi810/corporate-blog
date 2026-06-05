@@ -12,7 +12,7 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "target": "es2024",
     "types": ["node"],
 
