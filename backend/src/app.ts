@@ -11,9 +11,10 @@ import { logger } from './utils/logger.util.js';
 import  * as Sentry from '@sentry/node';
 import { env } from './config/env.config.js';
 
-export function createApp(): Application {
+
+export async function createApp(): Promise<Application> {
     const app = express();
-    
+
     app.use(helmet());
     
     // origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
