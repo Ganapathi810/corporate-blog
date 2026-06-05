@@ -133,7 +133,7 @@ export default function BlogsPage({
                 <h2 className="text-2xl font-semibold px-4 md:px-0 max-w-6xl mx-auto mb-6">
                     Blogs
                 </h2>
-                <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
+                <div className="w-full max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
                     <GridSuspense>
                         <BlogsGrid searchParamsPromise={searchParams} />
                     </GridSuspense>
