@@ -1,7 +1,7 @@
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
-import { PrismaClient } from '../backend/src/generated/prisma/index.js';
+import { PrismaClient } from '../src/generated/prisma/index.js';
 import dotenv from 'dotenv';
 dotenv.config({ path: 'backend/.env' });
 

@@ -1,4 +1,4 @@
-import './instrument.js';
+import './sentry.js';
 import 'dotenv/config';
 import { createApp } from './app.js';
 

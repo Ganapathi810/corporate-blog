@@ -16,7 +16,8 @@ const envSchema = z.object({
     CLOUDINARY_API_KEY: z.string().min(1, "Cloudinary api key is required"),
     CLOUDINARY_API_SECRET: z.string().min(1, "Cloudinary api secret is required"),
     BETTER_AUTH_URL: z.string().min(1, "Better auth url is required").default("http://localhost:5000/api/v1/auth"),
-    TRUSTED_PROXIES: z.string().min(1, "Trusted proxies is required")
+    TRUSTED_PROXIES: z.string().min(1, "Trusted proxies is required"),
+    SENTRY_DSN: z.string().min(1, "Sentry dsn is required")
 })
 
 const parsed = envSchema.safeParse(process.env)
@@ -44,5 +45,6 @@ export const env = {
     CLOUDINARY_API_KEY: parsed.data.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: parsed.data.CLOUDINARY_API_SECRET,
     BETTER_AUTH_URL: parsed.data.BETTER_AUTH_URL,
-    TRUSTED_PROXIES: parsed.data.TRUSTED_PROXIES
+    TRUSTED_PROXIES: parsed.data.TRUSTED_PROXIES,
+    SENTRY_DSN: parsed.data.SENTRY_DSN
 }
