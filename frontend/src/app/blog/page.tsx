@@ -125,11 +125,11 @@ export default function BlogsPage({
     searchParams: Promise<{ search?: string; category?: string; sort?: string }>;
 }) {
     return (
-        <div className="pb-20">
+        <div className="pb-20 w-full">
             <SchemaOrg schema={[blogListingSchema, breadcrumbSchema, websiteSchema]} />
             <SearchBar />
             <Filters />
-            <div className="mt-8">
+            <div className="mt-8 w-full">
                 <h2 className="text-2xl font-semibold px-4 md:px-0 max-w-6xl mx-auto mb-6">
                     Blogs
                 </h2>
