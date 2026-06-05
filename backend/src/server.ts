@@ -14,8 +14,5 @@ const app  = createApp();
 // Ensure admin exists
 await adminBootstrap();
 
-app.listen(PORT, () => {
-  logger.info(`Server started on port ${PORT}`);
-});
 
 export default app;
