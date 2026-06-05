@@ -11,7 +11,6 @@ const postService = new PostService(new PostRepository(), auditLogService);
 
 
 export async function getPosts(req: Request, res: Response): Promise<void> {
-    throw new Error("backend error simulation for sentry")
 
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 10
