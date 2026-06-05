@@ -176,7 +176,7 @@ export const BlogListSkeleton = ({ count = 6 }: { count?: number }) => (
 )
 
 export const PostGridSkeleton = ({ count = 6 }: { count?: number }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...Array(count)].map((_, i) => (
             <div key={i} className="space-y-4">
                 <Skeleton className="h-48 w-full rounded" />
