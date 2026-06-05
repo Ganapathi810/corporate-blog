@@ -17,3 +17,5 @@ await adminBootstrap();
 app.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);
 });
+
+export default app;
