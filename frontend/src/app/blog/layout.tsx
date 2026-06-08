@@ -1,16 +1,11 @@
-import { authClient } from "@/lib/auth-client";
-import { headers } from "next/headers";
+import { getServerSession } from "@/lib/auth-server";
 import { PublicTopbar } from "@/components/top-bar/public-top-bar";
 import { SidebarProvider } from "@/components/dashboard/sidebar-provider";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { ProtectedTopbar } from "@/components/top-bar/private-top-bar";
 
 export default async function BlogLayout({ children }: { children: React.ReactNode }) {
-    const { data: session } = await authClient.getSession({
-        fetchOptions: {
-            headers: await headers(),
-        }
-    })
+    const { data: session } = await getServerSession();
 
     if (session) {
         return (

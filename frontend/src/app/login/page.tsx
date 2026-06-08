@@ -1,15 +1,10 @@
 import { SignupWithGoogleButton } from "@/components/signup-with-google-button";
-import { authClient } from "@/lib/auth-client";
-import { headers } from "next/headers";
+import { getServerSession } from "@/lib/auth-server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function Login() {
-    const { data: session } = await authClient.getSession({
-        fetchOptions: {
-            headers: await headers(),
-        }
-    })
+    const { data: session } = await getServerSession();
 
     if (session) {
         redirect("/dashboard")

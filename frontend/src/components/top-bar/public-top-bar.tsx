@@ -1,15 +1,10 @@
 import Link from "next/link"
 import { BaseTopbar } from "./base-top-bar"
-import { authClient } from "@/lib/auth-client"
-import { headers } from "next/headers"
+import { getServerSession } from "@/lib/auth-server"
 import { AvatarWithDropdown } from "../avatar-with-dropdown"
 
 export const PublicTopbar = async () => {
-    const { data: session } = await authClient.getSession({
-        fetchOptions: {
-            headers: await headers(),
-        }
-    })
+    const { data: session } = await getServerSession();
 
     return (
         <BaseTopbar showBlogLink={true}>

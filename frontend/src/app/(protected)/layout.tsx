@@ -1,16 +1,11 @@
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { ProtectedTopbar } from "@/components/top-bar/private-top-bar";
 import { SidebarProvider } from "@/components/dashboard/sidebar-provider";
-import { headers } from "next/headers";
-import { authClient } from "@/lib/auth-client";
+import { getServerSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-    const result = await authClient.getSession({
-        fetchOptions: {
-            headers: await headers(), // Forward headers (including cookies) to check session on server
-        }
-    })
+    const result = await getServerSession();
     const { data: session } = result
     console.log("auth client response:", JSON.stringify(result, null, 2));
 
