@@ -12,7 +12,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
         }
     })
     const { data: session } = result
-    console.log("auth client response: ",result);
+    console.log("auth client response:", JSON.stringify(result, null, 2));
 
     if (!session) {
         console.log("session does not exists...")
