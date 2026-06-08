@@ -13,7 +13,11 @@ export default async function ProtectedLayout({ children }: { children: React.Re
     })
 
     if (!session) {
+        console.log("session does not exists...")
         redirect("/login")
+    } else {
+        console.log("session exists...")
+        console.log(session)
     }
 
     return (
