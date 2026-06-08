@@ -6,11 +6,12 @@ import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-    const { data: session } = await authClient.getSession({
+    const result = await authClient.getSession({
         fetchOptions: {
             headers: await headers(), // Forward headers (including cookies) to check session on server
         }
     })
+    console.log("auth client response: ",result);
 
     if (!session) {
         console.log("session does not exists...")
