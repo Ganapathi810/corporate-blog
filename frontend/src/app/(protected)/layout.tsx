@@ -11,6 +11,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
             headers: await headers(), // Forward headers (including cookies) to check session on server
         }
     })
+    const { data: session } = result
     console.log("auth client response: ",result);
 
     if (!session) {
