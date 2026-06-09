@@ -32,48 +32,22 @@ const authServerClient = createAuthClient({
  * const session = await getServerSession();
  * ```
  */
-// export async function getServerSession() {
-    // const result = await authServerClient.getSession({
-    //     fetchOptions: {
-    //         headers: await headers(),
-    //     }
-    // });
-    // return result;
-    // const h = await headers();
-
-    // console.log("COOKIE HEADER:");
-    // console.log(h.get("cookie"));
-
-    // const result = await authServerClient.getSession({
-    //     fetchOptions: {
-    //         headers: h,
-    //     }
-    // });
-
-    // console.log("AUTH RESULT:");
-    // console.log(JSON.stringify(result, null, 2));
-
-    // return result;
-// }
-
 export async function getServerSession() {
     const h = await headers();
 
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/get-session`,
-        {
-            headers: {
-                cookie: h.get("cookie") ?? "",
-            },
-            cache: "no-store",
+    console.log("COOKIE HEADER::");
+    console.log(h.get("cookie"));
+
+    const result = await authServerClient.getSession({
+        fetchOptions: {
+            headers: h,
         }
-    );
+    });
 
-    const data = await response.json();
+    console.log("AUTH RESULT::");
+    console.log(JSON.stringify(result, null, 2));
 
-    console.log("MANUAL FETCH RESULT:");
-    console.log(JSON.stringify(data, null, 2));
-    console.log("AFTER LOGGING IT")
-
-    return data;
+    return result;
 }
+
+

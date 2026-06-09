@@ -7,10 +7,10 @@ import { redirect } from "next/navigation";
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
     const result = await getServerSession();
     const { data: session } = result
-    console.log("auth client response:", JSON.stringify(result, null, 2));
+    console.log("auth client response::", JSON.stringify(result, null, 2));
 
     if (!session) {
-        console.log("session does not exists...")
+        console.log("session does not exists... redirect")
         redirect("/login")
     } else {
         console.log("session exists...")
