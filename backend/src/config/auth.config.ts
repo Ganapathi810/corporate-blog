@@ -23,13 +23,14 @@ export const auth = betterAuth({
     },
 
     
-    // advanced: {
-    //     cookie: {
-    //         httpOnly: true,
-    //         secure: process.env.NODE_ENV === "production",
-    //         sameSite: "Lax",
-    //     }
-    // },
+    advanced: {
+       crossSubDomainCookies: {
+            enabled: true,
+            domain: "corporateblog.in", // The root domain shared by your frontend and backend
+        },
+        // Force secure cookies in production environments
+        useSecureCookies: process.env.NODE_ENV === "production"
+    },
     
 
     trustedOrigins: env.TRUSTED_PROXIES?.split(","),
