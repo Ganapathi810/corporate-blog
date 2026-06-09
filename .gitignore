@@ -15,8 +15,8 @@ frontend/out/
 backend/src/generated/
 
 # ── Logs ──────────────────────────────────────────────────
-*.log
-logs/
+# *.log
+# logs/
 
 # ── Scratch / temp files ──────────────────────────────────
 scratch-*.js
