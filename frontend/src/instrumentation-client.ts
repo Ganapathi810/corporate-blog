@@ -17,7 +17,7 @@ Sentry.init({
   sendDefaultPii: true,
 
   // Enable debug mode for troubleshooting
-  debug: true,
+  // debug: true,
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
