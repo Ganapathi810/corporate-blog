@@ -36,6 +36,14 @@ export async function createApp(): Promise<Application> {
 
     app.use(express.json({ limit: '1mb' }));
 
+    app.get("/", (req, res) => {
+       res.json({
+        success: true,
+        message: "Server is running..."
+       })
+       logger.info("Server is running...");
+    })
+
 
     app.use(requestId);
 
