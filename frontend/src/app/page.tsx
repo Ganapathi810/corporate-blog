@@ -4,6 +4,7 @@ import { PublicTopbar } from "@/components/top-bar/public-top-bar";
 import { SchemaOrg } from "@/components/schema-org";
 import type { Metadata } from "next";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
+import { HomeAuthButton } from "@/components/home-auth-button";
 
 export const metadata: Metadata = {
     title: siteConfig.name,
@@ -89,21 +90,7 @@ export default async function Home() {
                             Browse Blog
                         </Link>
 
-                        {session ? (
-                            <Link
-                                href="/dashboard"
-                                className="px-8 py-4 bg-[#525CEB] text-white rounded-xl font-semibold hover:bg-[#3F49D1] transition shadow-md"
-                            >
-                                Go to Dashboard
-                            </Link>
-                        ) : (
-                            <Link
-                                href="/login"
-                                className="px-8 py-4 bg-[#525CEB] text-white rounded-xl font-semibold hover:bg-[#3F49D1] transition shadow-md"
-                            >
-                                Sign In to Write
-                            </Link>
-                        )}
+                        <HomeAuthButton />
                     </div>
                 </div>
             </main>
