@@ -1,4 +1,3 @@
-import { getServerSession } from "@/lib/auth-server";
 import Link from "next/link";
 import { PublicTopbar } from "@/components/top-bar/public-top-bar";
 import { SchemaOrg } from "@/components/schema-org";
@@ -36,7 +35,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    const { data: session } = await getServerSession();
 
     const organizationSchema = {
         "@context": "https://schema.org",
