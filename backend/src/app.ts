@@ -32,10 +32,19 @@ export async function createApp(): Promise<Application> {
         next()
     })
     
-    const start = performance.now()
-    app.all('/api/v1/auth/*path', toNodeHandler(auth))
-    const end = performance.now()
-    logger.info(`[Auth Request execution time]: ${end - start}ms`)
+    app.all('/api/v1/auth/*path', async (req, res, next) => {
+       const start = performance.now();
+
+        try {
+            return await toNodeHandler(auth)(req, res);
+        } finally {
+            logger.info(
+                `[Auth Request]: ${req.method} ${req.originalUrl} took ${
+                    performance.now() - start
+                }ms`
+            );
+        }
+    })
 
     app.use(express.json({ limit: '1mb' }));
 
