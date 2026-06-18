@@ -30,7 +30,9 @@ export const BaseTopbar = ({ children, startNode, hideLogo, showBlogLink }: { ch
 
             <div className="flex items-center gap-2 md:gap-4">
                 <Tooltip content="Search posts" position="bottom">
-                    <Link 
+                    <Link
+                        aria-label="Search blogs"
+
                         href="/blog?focus=true" 
                         className="p-2 hover:bg-white/10 rounded-full transition-colors group"
                     >

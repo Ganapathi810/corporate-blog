@@ -38,7 +38,7 @@ const WidgetItem = ({ post, index }: { post: MiniPost; index: number }) => (
             <h4 className="text-[13px] font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-[#414BEA] transition-colors">
                 {post.title}
             </h4>
-            <div className="flex items-center gap-2 text-[10px] text-gray-400 font-medium">
+            <div className="flex items-center gap-2 text-[10px] text-gray-700 font-medium">
                 <Clock className="size-3" />
                 <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
@@ -113,7 +113,7 @@ export const SidebarWidgets = () => {
                                 <WidgetItem key={post.id} post={post} index={idx} />
                             ))
                         ) : (
-                            <p className="p-6 text-center text-xs text-gray-400 italic">No trending data yet</p>
+                            <p className="p-6 text-center text-xs text-gray-700 italic">No trending data yet</p>
                         )
                     )}
                 </div>
@@ -139,7 +139,7 @@ export const SidebarWidgets = () => {
                                 <WidgetItem key={post.id} post={post} index={idx} />
                             ))
                         ) : (
-                            <p className="p-6 text-center text-xs text-gray-400 italic">No activity yet</p>
+                            <p className="p-6 text-center text-xs text-gray-700 italic">No activity yet</p>
                         )
                     )}
                 </div>

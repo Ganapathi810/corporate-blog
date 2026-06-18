@@ -28,7 +28,7 @@ export const MonetizationSlot = ({
         return (
             <div
                 className={clsx(
-                    "w-full flex items-center justify-center border border-dashed border-gray-300 text-xs text-gray-400",
+                    "w-full flex items-center justify-center border border-dashed border-gray-300 text-xs text-gray-700",
                     className
                 )}>
                 {fallback ?? `Monetization Slot: ${slot}`}
