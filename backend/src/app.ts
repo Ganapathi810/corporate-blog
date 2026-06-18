@@ -33,34 +33,34 @@ export async function createApp(): Promise<Application> {
         next()
     })
     
-    // app.all('/api/v1/auth/*path', async (req, res, next) => {
-    //    const start = performance.now();
-
-    //     try {
-    //         return await toNodeHandler(auth)(req, res);
-    //     } finally {
-    //         logger.info(
-    //             `[Auth Request]: ${req.method} ${req.originalUrl} took ${
-    //                 performance.now() - start
-    //             }ms`
-    //         );
-    //     }
-    // })
-
-    app.get('/api/v1/auth/get-session', async (req, res) => {
-        const start = performance.now()
+    app.all('/api/v1/auth/*path', async (req, res) => {
+       const start = performance.now();
 
         try {
-            // return await toNodeHandler(auth)(req, res)
-            await prisma.$queryRaw`SELECT 1`;
+            return await toNodeHandler(auth)(req, res);
         } finally {
             logger.info(
-                `[Prisma Query]: ${req.method} ${req.originalUrl} took ${
+                `[Auth Request]: ${req.method} ${req.originalUrl} took ${
                     performance.now() - start
                 }ms`
             );
         }
     })
+
+    // app.get('/api/v1/auth/get-session', async (req, res) => {
+    //     const start = performance.now()
+
+    //     try {
+    //         // return await toNodeHandler(auth)(req, res)
+    //         await prisma.$queryRaw`SELECT 1`;
+    //     } finally {
+    //         logger.info(
+    //             `[Prisma Query]: ${req.method} ${req.originalUrl} took ${
+    //                 performance.now() - start
+    //             }ms`
+    //         );
+    //     }
+    // })
 
     app.use(express.json({ limit: '1mb' }));
 
