@@ -406,6 +406,7 @@ export default function EditPostPage() {
                         title={title}
                         bannerUrl={bannerUrl}
                         content={content}
+                        htmlContent={htmlContent}
                         authorName={session?.user?.name || "Author"}
                         authorImage={session?.user?.image}
                         categories={selectedCategories}
