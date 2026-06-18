@@ -85,6 +85,7 @@ export default function EditPostPage() {
                 setSlug(post.slug)
                 setExcerpt(post.excerpt || "")
                 setContent(post.content)
+                setHtmlContent(post.htmlContent || "")
                 if (post.bannerImage) {
                     setBannerUrl(post.bannerImage.url)
                     setBannerImageId(post.bannerImage.id)
