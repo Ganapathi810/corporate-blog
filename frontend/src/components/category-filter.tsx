@@ -16,7 +16,10 @@ export const CategoryFilter = () => {
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/categories`)
             .then(res => res.json())
-            .then(data => setCategories(data.data || []))
+            .then(data => {
+                console.log(JSON.stringify(data.data))
+                setCategories(data.data || [])
+            })
             .catch(err => Sentry.captureException(err));
     }, []);
 
