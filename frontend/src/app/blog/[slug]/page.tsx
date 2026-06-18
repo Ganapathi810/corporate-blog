@@ -80,6 +80,8 @@ export async function generateMetadata({
     const publishedTime = new Date(post.createdAt).toISOString();
     const modifiedTime = new Date(post.updatedAt || post.createdAt).toISOString();
 
+    
+
     return {
         title: post.title,
         description: post.excerpt || `Read ${post.title} on ${siteConfig.name}`,
@@ -136,6 +138,8 @@ export default async function BlogPostPage({
     if (!post) {
         notFound();
     }
+
+    console.log("fetched post : \n",JSON.stringify(post,null,2))
 
     const relatedPosts = await getRelatedPosts(post.id);
     const filteredRelated = relatedPosts.slice(0, 3);
@@ -230,12 +234,14 @@ export default async function BlogPostPage({
         ],
     };
 
+
+
     return (
         <div>
             <ViewCounter slug={slug} />
             <SchemaOrg schema={[articleSchema, breadcrumbSchema]} />
             <PostLayout post={post}>
-                <PostContent content={post.content} htmlContent={post.htmlContent} />
+                <PostContent htmlContent={post.htmlContent} />
             </PostLayout>
 
             <div className="max-w-6xl mx-auto px-4 lg:px-0 pb-24">

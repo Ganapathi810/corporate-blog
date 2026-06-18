@@ -1,9 +1,9 @@
 interface PostContentProps {
-    content: any
     htmlContent?: string
 }
 
-export const PostContent = ({ content, htmlContent }: PostContentProps) => {
+
+export const PostContent = ({ htmlContent }: PostContentProps) => {
     // If pre-rendered HTML is available, render it directly without TipTap
     if (htmlContent) {
         return (
