@@ -127,8 +127,8 @@ export const PostPreview = ({
             {/* Content */}
             <div className="grid grid-cols-12 gap-10">
                 <article className="col-span-12 md:col-span-8 lg:col-span-8 text-lg leading-relaxed text-gray-800">
-                    {content ? (
-                        <PostContent content={content} htmlContent={htmlContent} />
+                    {htmlContent ? (
+                        <PostContent htmlContent={htmlContent} />
                     ) : (
                         <p className="text-gray-400 italic">Start writing to see the preview...</p>
                     )}
