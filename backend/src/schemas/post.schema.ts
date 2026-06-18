@@ -19,6 +19,11 @@ export const createPostScheme = z.object({
 
         content: z.custom<Prisma.InputJsonValue>().nullable().optional(),
 
+        htmlContent: z
+            .string()
+            .nullable()
+            .optional(),
+
         excerpt: z
             .string()
             .max(255, "Excerpt cannot exceed 255 characters")
@@ -79,6 +84,11 @@ export const updatePostSchema = z.object({
 
         content: z
             .custom<Prisma.InputJsonValue>()
+            .nullable()
+            .optional(),
+
+        htmlContent: z
+            .string()
             .nullable()
             .optional(),
 

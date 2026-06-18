@@ -107,7 +107,8 @@ export class PostService {
             title,
             slug: currentSlug,
             status,
-            searchText
+            searchText,
+            htmlContent: data.htmlContent || null
         }
         
         const post = await this.postRepo.create(authorId, dataWithAddionalFields)
@@ -144,6 +145,7 @@ export class PostService {
             title: originalPost.title,
             slug: draftSlug,
             content: originalPost.content as any,
+            htmlContent: originalPost.htmlContent || undefined,
             excerpt: originalPost.excerpt || undefined,
             status: "IN_REVIEW",
             isPremium: originalPost.isPremium,

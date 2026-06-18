@@ -8,6 +8,7 @@ interface PostPreviewProps {
     title: string
     bannerUrl: string | null
     content: any
+    htmlContent?: string
     authorName: string
     authorImage?: string | null
     categories: { id: string; name: string }[]
@@ -18,6 +19,7 @@ export const PostPreview = ({
     title,
     bannerUrl,
     content,
+    htmlContent,
     authorName,
     authorImage,
     categories,
@@ -126,7 +128,7 @@ export const PostPreview = ({
             <div className="grid grid-cols-12 gap-10">
                 <article className="col-span-12 md:col-span-8 lg:col-span-8 text-lg leading-relaxed text-gray-800">
                     {content ? (
-                        <PostContent content={content} />
+                        <PostContent content={content} htmlContent={htmlContent} />
                     ) : (
                         <p className="text-gray-400 italic">Start writing to see the preview...</p>
                     )}

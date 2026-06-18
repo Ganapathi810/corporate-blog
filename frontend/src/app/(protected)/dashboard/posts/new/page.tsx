@@ -17,6 +17,7 @@ export default function CreatePostPage() {
     const [bannerUrl, setBannerUrl] = useState<string | null>(null)
     const [bannerImageId, setBannerImageId] = useState<string | null>(null)
     const [content, setContent] = useState<any>(null)
+    const [htmlContent, setHtmlContent] = useState<string>("");
     const [categoryIds, setCategoryIds] = useState<string[]>([])
     const [categoryNames, setCategoryNames] = useState<{id: string, name: string}[]>([])
     const [showErrors, setShowErrors] = useState(false)
@@ -91,6 +92,7 @@ export default function CreatePostPage() {
                 title: title.trim(),
                 excerpt: excerpt.trim() ? excerpt.trim() : null,
                 content: content || {},
+                htmlContent: htmlContent || null,
                 ...(bannerUrl && { bannerUrl }),
                 ...(bannerImageId && { bannerImageId }),
                 slug: currentSlug,
@@ -184,7 +186,8 @@ export default function CreatePostPage() {
                 body: JSON.stringify({ 
                     title, 
                     excerpt: excerpt.trim() ? excerpt.trim() : null,
-                    content, 
+                    content,
+                    htmlContent: htmlContent || null,
                     ...(bannerUrl && { bannerUrl }),
                     ...(bannerImageId && { bannerImageId }),
                     slug: currentSlug,
@@ -318,6 +321,7 @@ export default function CreatePostPage() {
                             if (showErrors) setShowErrors(false)
                         }}
                         onUpdateContent={setContent}
+                        onUpdateHtmlContent={setHtmlContent}
                         categoryIds={categoryIds}
                         onCategoryIdsChange={setCategoryIds}
                         excerpt={excerpt}
@@ -338,6 +342,7 @@ export default function CreatePostPage() {
                         title={title}
                         bannerUrl={bannerUrl}
                         content={content}
+                        htmlContent={htmlContent}
                         authorName={session?.user?.name || "Author"}
                         authorImage={session?.user?.image}
                         categories={selectedCategories}

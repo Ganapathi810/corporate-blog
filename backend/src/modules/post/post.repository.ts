@@ -165,6 +165,7 @@ export class PostRepository {
                 ...postData,
                 slug: postData.slug!, // Ensured by service
                 content: (postData.content ?? null) as any,
+                htmlContent: postData.htmlContent || null,
                 authorId,
                 title: postData.title || "Untitled",
                 excerpt: postData.excerpt || null,

@@ -52,9 +52,10 @@ export interface NotionEditorProps {
     excerpt?: string;
     onExcerptChange?: (text: string) => void;
     postId?: string | null;
+    onUpdateHtmlContent?: (html: string) => void;
 }
 
-export const NotionEditor = ({ title, onTitleChange, bannerUrl, onBannerChange, onUpdateContent, showErrors, slug, onSlugChange, initialContent, categoryIds, onCategoryIdsChange, excerpt = "", onExcerptChange, postId }: NotionEditorProps) => {
+export const NotionEditor = ({ title, onTitleChange, bannerUrl, onBannerChange, onUpdateContent, showErrors, slug, onSlugChange, initialContent, categoryIds, onCategoryIdsChange, excerpt = "", onExcerptChange, postId, onUpdateHtmlContent }: NotionEditorProps) => {
     const [menuVisible, setMenuVisible] = useState(false)
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
     const [isBannerUploading, setIsBannerUploading] = useState(false)
@@ -327,6 +328,12 @@ export const NotionEditor = ({ title, onTitleChange, bannerUrl, onBannerChange, 
         onUpdate: ({ editor }) => {
             const json = editor.getJSON()
             onUpdateContent(json)
+
+            // Generate and send HTML content
+            if (onUpdateHtmlContent) {
+                const html = editor.getHTML()
+                onUpdateHtmlContent(html)
+            }
 
             // Collect all image IDs currently present in the editor
             const currentImageIds = new Set<string>()

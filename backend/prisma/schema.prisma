@@ -83,6 +83,7 @@ model Post {
   slug        String      @unique
   excerpt     String?
   content     Json
+  htmlContent String? 
   searchText  String
   status      PostStatus  @default(DRAFT)
   isPremium   Boolean     @default(false) 

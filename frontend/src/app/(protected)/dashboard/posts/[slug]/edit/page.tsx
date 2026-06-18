@@ -23,6 +23,7 @@ export default function EditPostPage() {
     const [bannerUrl, setBannerUrl] = useState<string | null>(null)
     const [bannerImageId, setBannerImageId] = useState<string | null>(null)
     const [content, setContent] = useState<any>(null)
+    const [htmlContent, setHtmlContent] = useState<string>("")
     const [categoryIds, setCategoryIds] = useState<string[]>([])
     const [categoryNames, setCategoryNames] = useState<{id: string, name: string}[]>([])
     const [showErrors, setShowErrors] = useState(false)
@@ -129,6 +130,7 @@ export default function EditPostPage() {
                 title: title.trim(),
                 excerpt: excerpt.trim() ? excerpt.trim() : null,
                 content,
+                htmlContent: htmlContent || null,
                 slug,
                 ...(bannerImageId && { bannerImageId }),
                 imageIds,
@@ -215,7 +217,8 @@ export default function EditPostPage() {
                 body: JSON.stringify({ 
                     title: title.trim(), 
                     excerpt: excerpt.trim() ? excerpt.trim() : null,
-                    content, 
+                    content,
+                    htmlContent: htmlContent || null,
                     slug,
                     ...(bannerImageId && { bannerImageId }),
                     categoryIds,
@@ -374,6 +377,10 @@ export default function EditPostPage() {
                                 setContent(json)
                                 setHasUserInteracted(true)
                                 if (showErrors) setShowErrors(false)
+                            }}
+                            onUpdateHtmlContent={(html) => {
+                                setHtmlContent(html)
+                                setHasUserInteracted(true)
                             }}
                             initialContent={content}
                             categoryIds={categoryIds}

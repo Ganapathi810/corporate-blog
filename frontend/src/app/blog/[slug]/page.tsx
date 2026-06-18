@@ -235,7 +235,7 @@ export default async function BlogPostPage({
             <ViewCounter slug={slug} />
             <SchemaOrg schema={[articleSchema, breadcrumbSchema]} />
             <PostLayout post={post}>
-                <PostContent content={post.content} />
+                <PostContent content={post.content} htmlContent={post.htmlContent} />
             </PostLayout>
 
             <div className="max-w-6xl mx-auto px-4 lg:px-0 pb-24">

@@ -3,6 +3,7 @@ export type Post = {
     title: string;
     slug: string;
     content: any;
+    htmlContent?: string;
     readTime: number;
     excerpt?: string;
     createdAt: string;
