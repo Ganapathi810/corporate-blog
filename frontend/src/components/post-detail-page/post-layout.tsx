@@ -3,6 +3,7 @@ import { MonetizationSlot } from "../monetization/monetization-slot"
 import { Clock, Tag, User, Calendar } from "lucide-react"
 import { SidebarWidgets } from "./sidebar-widgets"
 import { calculateReadTime } from "@/lib/read-time";
+import Image from "next/image";
 
 interface PostLayoutProps {
     children: React.ReactNode;
@@ -33,10 +34,13 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
             {/* Banner Section with Overlay */}
             {bannerUrl && (
                 <div className="w-full aspect-21/10 md:aspect-21/9 relative rounded-xl overflow-hidden shadow-2xl group border border-gray-100/50">
-                    <img 
+                    <Image 
+                        fill
+                        preload
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         src={bannerUrl} 
                         alt={post.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     
                     {/* Dark Gradient Overlay */}
@@ -50,7 +54,7 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
                                 </span>
                                 <div className="flex items-center gap-3">
                                     {author?.image ? (
-                                        <img src={author.image} alt={author.name} className="size-10 rounded-full border border-white/20 object-cover" />
+                                        <Image src={author.image} alt={author.name} className="size-10 rounded-full border border-white/20 object-cover" />
                                     ) : (
                                         <div className="size-10 rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold border border-white/20">
                                             {author?.name?.[0] || 'U'}
