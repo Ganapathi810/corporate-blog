@@ -36,7 +36,7 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
                 <div className="w-full aspect-21/10 md:aspect-21/9 relative rounded-xl overflow-hidden shadow-2xl group border border-gray-100/50">
                     <Image 
                         fill
-                        preload
+                        priority
                         sizes="(max-width: 1152px) 100vw, 1152px"
                         src={bannerUrl} 
                         alt={post.title} 
