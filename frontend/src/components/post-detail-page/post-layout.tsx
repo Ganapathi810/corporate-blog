@@ -36,8 +36,7 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
                 <div className="w-full aspect-21/10 md:aspect-21/9 relative rounded-xl overflow-hidden shadow-2xl group border border-gray-100/50">
                     <Image 
                         fill
-                        preload
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 1152px) 100vw, 1152px"
                         src={bannerUrl} 
                         alt={post.title} 
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
