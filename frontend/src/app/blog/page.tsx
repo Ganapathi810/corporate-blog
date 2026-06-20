@@ -5,7 +5,6 @@ import { GridSuspense } from "@/components/blogs-page/grid-suspense";
 import { SchemaOrg } from "@/components/schema-org";
 import type { Metadata } from "next";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
-import { toast } from "sonner";
 import * as Sentry from "@sentry/nextjs";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
