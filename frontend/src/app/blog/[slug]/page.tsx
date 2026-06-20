@@ -14,6 +14,7 @@ async function getPostBySlug(slug: string) {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts/${slug}`,
+            { next: { revalidate: 900 } }
         );
         if (!response.ok) {
             if (response.status === 404) return null;
@@ -31,6 +32,7 @@ async function getRelatedPosts(postId: string) {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts/${postId}/internal-suggestions`,
+            { next: { revalidate: 900 } }
         );
         if (!response.ok) return [];
         const result = await response.json();
@@ -45,6 +47,7 @@ export async function generateStaticParams() {
     try {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts?status=PUBLISHED&limit=1000`,
+            { next: { revalidate: 900 } }
         );
         if (!res.ok) return [];
         const data = await res.json();
