@@ -3,7 +3,6 @@ import { MonetizationSlot } from "../monetization/monetization-slot"
 import { Clock, Tag, User, Calendar } from "lucide-react"
 import { SidebarWidgets } from "./sidebar-widgets"
 import { calculateReadTime } from "@/lib/read-time";
-import { CldImage } from 'next-cloudinary'
 import Image from "next/image";
 
 interface PostLayoutProps {
@@ -35,9 +34,15 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
             {/* Banner Section with Overlay */}
             {bannerUrl && (
                 <div className="w-full aspect-21/10 md:aspect-21/9 relative rounded-xl overflow-hidden shadow-2xl group border border-gray-100/50">
-                    <CldImage
+                    <Image 
                         fill
                         priority
+                        loader={({ src, width, quality }) => {
+                            if (src.includes('res.cloudinary.com')) {
+                                return src.replace('/upload/', `/upload/f_auto,q_${quality || 'auto'},w_${width}/`);
+                            }
+                            return src;
+                        }}
                         sizes="(max-width: 1152px) 100vw, 1152px"
                         src={bannerUrl} 
                         alt={post.title} 
