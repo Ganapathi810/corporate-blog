@@ -38,12 +38,6 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
                         fill
                         priority
                         fetchPriority="high"
-                        loader={({ src, width, quality }) => {
-                            if (src.includes('res.cloudinary.com')) {
-                                return src.replace('/upload/', `/upload/f_auto,q_${quality || 'auto'},w_${width}/`);
-                            }
-                            return src;
-                        }}
                         sizes="(max-width: 1152px) 100vw, 1152px"
                         src={bannerUrl} 
                         alt={post.title} 
