@@ -53,5 +53,31 @@ export const auth = betterAuth({
                 required: false
             }
         }
+    },
+
+    databaseHooks: {
+        user: {
+            create: {
+                before: async (user) => {
+                    // Import the slug utility inline or at the top
+                    const { generateSlug } = await import("../utils/slug.util.js");
+                    let baseSlug = generateSlug(user.name);
+                    let finalSlug = baseSlug;
+                    let counter = 1;
+                    
+                    while (await prisma.user.findUnique({ where: { slug: finalSlug } })) {
+                        finalSlug = `${baseSlug}-${counter}`;
+                        counter++;
+                    }
+                    
+                    return {
+                        data: {
+                            ...user,
+                            slug: finalSlug
+                        }
+                    }
+                }
+            }
+        }
     }
 })
