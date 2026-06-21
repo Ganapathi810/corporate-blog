@@ -110,6 +110,8 @@ export async function generateMetadata({
     };
 }
 
+
+
 async function AuthorPostsGrid({
     authorSlug,
     searchParamsPromise,
