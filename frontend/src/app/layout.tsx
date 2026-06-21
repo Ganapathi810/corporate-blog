@@ -85,6 +85,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en-IN">
+            <head>
+                <link rel="preconnect" href="https://res.cloudinary.com" />
+                <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+            </head>
             <body className={`${poppins.className}`}>
                 <NextTopLoader color="#032069" showSpinner={false} zIndex={99999} />
                 {children}

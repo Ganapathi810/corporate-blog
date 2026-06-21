@@ -37,6 +37,7 @@ export const PostLayout = ({ children, post }: PostLayoutProps) => {
                     <Image 
                         fill
                         priority
+                        fetchPriority="high"
                         loader={({ src, width, quality }) => {
                             if (src.includes('res.cloudinary.com')) {
                                 return src.replace('/upload/', `/upload/f_auto,q_${quality || 'auto'},w_${width}/`);
