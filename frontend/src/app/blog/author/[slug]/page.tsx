@@ -7,6 +7,8 @@ import { SchemaOrg } from "@/components/schema-org";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
 import type { Metadata } from "next";
 import * as Sentry from "@sentry/nextjs";
+import { AuthorPostsClient } from "@/components/blogs-page/author-posts-client";
+import { fetchPosts } from "@/lib/db/fetch-posts";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
 
@@ -41,32 +43,7 @@ async function fetchAuthor(slug: string) {
     }
 }
 
-async function fetchPosts(
-    authorSlug: string,
-    params: { search?: string; category?: string; sort?: string }
-) {
-    try {
-        const query = new URLSearchParams({
-            status: "PUBLISHED",
-            limit: "20",
-            sortBy: params.sort === "oldest" ? "oldest" : "latest",
-            authorSlug,
-        });
-        if (params.category) query.append("categoryId", params.category);
-        if (params.search) query.append("search", params.search);
 
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts?${query.toString()}`,
-            { next: { revalidate: 900 } }
-        );
-        if (!res.ok) return [];
-        const result = await res.json();
-        return result.data || [];
-    } catch (error) {
-        Sentry.captureException(error)
-        return [];
-    }
-}
 
 export async function generateMetadata({
     params,
@@ -111,29 +88,14 @@ export async function generateMetadata({
 }
 
 
-
-async function AuthorPostsGrid({
-    authorSlug,
-    searchParamsPromise,
-}: {
-    authorSlug: string;
-    searchParamsPromise: Promise<{ search?: string; category?: string; sort?: string }>;
-}) {
-    const params = await searchParamsPromise;
-    const posts = await fetchPosts(authorSlug, params);
-    const hasFilters = !!(params.search || params.category);
-    return <PostsList posts={posts as any} hasFilters={hasFilters} />;
-}
-
 export default async function AuthorPage({
     params,
-    searchParams,
 }: {
     params: Promise<{ slug: string }>;
-    searchParams: Promise<{ search?: string; category?: string; sort?: string }>;
 }) {
     const authorSlug = (await params).slug;
     const author = await fetchAuthor(authorSlug);
+    const intialPosts = await fetchPosts(authorSlug, {})
 
     if (!author) {
         return <BlogNotFound type="author" />;
@@ -175,7 +137,10 @@ export default async function AuthorPage({
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
                     <GridSuspense>
-                        <AuthorPostsGrid authorSlug={authorSlug} searchParamsPromise={searchParams} />
+                        <AuthorPostsClient 
+                            authorSlug={authorSlug}
+                            initialPosts={intialPosts}
+                          />
                     </GridSuspense>
                 </div>
             </div>

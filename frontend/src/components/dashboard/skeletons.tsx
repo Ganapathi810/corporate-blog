@@ -1,7 +1,5 @@
 "use client"
 
-import React from "react"
-
 export const Skeleton = ({ className }: { className?: string }) => (
     <div className={`animate-shimmer bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:400%_100%] rounded-sm ${className}`} />
 )

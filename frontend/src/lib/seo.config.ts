@@ -8,9 +8,9 @@ export const siteConfig = {
     tagline: "Insights and Stories from Corporate Blog",
     description:
         "Your hub for the latest fintech industry news, company updates, thought leadership, and expert perspectives from our team.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com",
-    ogImage: "/og-default.png",
-    twitterHandle: "@yourbrand",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.corporateblog.in",
+    ogImage: "/favicon.ico",
+    twitterHandle: "@ganapathiothoju",
     locale: "en_IN",
     author: {
         name: "Corporate Blog Team",
