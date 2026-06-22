@@ -58,19 +58,24 @@ export const CategoryFilter = () => {
 
     return (
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-            <div className="flex items-center gap-1.5 opacity-60">
+            <label htmlFor="category-filter" className="flex items-center gap-1.5 opacity-60">
                 <Tag className="size-4" />
                 <span>Category:</span>
-            </div>
+            </label>
             <div className="relative group">
                 <select 
                     className="cursor-pointer border border-blue-300 rounded-sm px-3 py-1.5 pr-9 appearance-none bg-white font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all hover:bg-gray-50"
                     value={selectedValue} 
                     onChange={(e) => handleCategoryChange(e.target.value)}
+                    id="category-filter"
                 >
                     <option value="">All Categories</option>
                     {categories.map(cat => (
-                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        <option 
+                            key={cat.id} 
+                            value={cat.id}
+                            
+                        >{cat.name}</option>
                     ))}
                 </select>
                 <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none size-4 text-gray-400" />
