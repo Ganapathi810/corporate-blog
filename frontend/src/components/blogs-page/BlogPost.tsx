@@ -27,6 +27,7 @@ export const BlogPost = ({ post }: BlogPostProps) => {
                 <div className="relative overflow-hidden rounded">
                     <Image 
                         priority
+                        fetchPriority="high"
                         src={post.bannerImage?.url || ""} 
                         alt={post.title} 
                         className="w-full h-48 object-cover rounded group-hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -43,6 +44,7 @@ export const BlogPost = ({ post }: BlogPostProps) => {
                 <div className="mt-4 flex items-center gap-2">
                     <Image
                         priority
+                        fetchPriority="high"
                         src={post.author?.image || '/favicon.ico'}
                         alt={post.author?.name || "Author not found"}
                         className="w-8 h-8 rounded-full object-cover"
