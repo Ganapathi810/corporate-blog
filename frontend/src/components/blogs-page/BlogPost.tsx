@@ -1,6 +1,7 @@
 import { Post } from "@/types/post"
 import Link from "next/link";
 import { calculateReadTime, extractContent } from "@/lib/read-time";
+import Image from "next/image";
 
 interface BlogPostProps {
     post: Post
@@ -24,8 +25,8 @@ export const BlogPost = ({ post }: BlogPostProps) => {
         <Link href={`/blog/${post.slug}`} className="group block">
             <div className="group cursor-pointer">
                 <div className="relative overflow-hidden rounded">
-                    <img 
-                        src={post.bannerImage?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ19T7uZ703V67_cJEb2W13ISrPzEo2-auBdw&s"} 
+                    <Image 
+                        src={post.bannerImage?.url || ""} 
                         alt={post.title} 
                         className="w-full h-48 object-cover rounded group-hover:scale-105 transition-transform duration-300 ease-in-out"
                     />
@@ -39,9 +40,9 @@ export const BlogPost = ({ post }: BlogPostProps) => {
                 <h2 className="mt-2 text-lg font-semibold line-clamp-2 group-hover:text-blue-600 transition-colors">{post.title}</h2>
                 <p className="mt-2 text-sm text-gray-600 line-clamp-3">{displayExcerpt}</p>
                 <div className="mt-4 flex items-center gap-2">
-                    <img
+                    <Image
                         src={post.author?.image || '/favicon.ico'}
-                        alt={post.author?.name}
+                        alt={post.author?.name || "Author not found"}
                         className="w-8 h-8 rounded-full object-cover"
                     />
                     <p className="text-sm font-semibold">{post.author?.name || "Author"}</p>

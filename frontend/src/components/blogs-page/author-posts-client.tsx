@@ -27,6 +27,8 @@ export async function AuthorPostsClient({
     const hasFilters = !!(search || category || sort);
 
     useEffect(() => {
+        if(!hasFilters) return
+
         async function loadPosts() {
             try {
                 setLoading(true);
@@ -61,7 +63,7 @@ export async function AuthorPostsClient({
         }
 
         loadPosts();
-    },[search, category, sort, authorSlug])
+    },[search, category, sort, authorSlug, hasFilters])
     
     return loading ? <PostGridSkeleton /> : <PostsList posts={posts as any} hasFilters={hasFilters} />;
 }
