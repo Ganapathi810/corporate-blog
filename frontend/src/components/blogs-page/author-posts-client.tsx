@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { PostGridSkeleton } from "../dashboard/skeletons";
 
 
-export async function AuthorPostsClient({
+export function AuthorPostsClient({
     authorSlug,
     initialPosts,
 }: {
@@ -27,7 +27,10 @@ export async function AuthorPostsClient({
     const hasFilters = !!(search || category || sort);
 
     useEffect(() => {
-        if(!hasFilters) return
+        if(!hasFilters)  {
+            setPosts(initialPosts);
+            return;
+        } 
 
         async function loadPosts() {
             try {

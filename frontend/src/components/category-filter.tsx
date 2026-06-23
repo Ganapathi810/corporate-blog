@@ -1,27 +1,13 @@
 "use client";
 
-import * as Sentry from "@sentry/nextjs";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, Tag } from "lucide-react"
-import { useEffect, useState } from "react"
+import { Category } from "@/types/Category";
 
-export const CategoryFilter = () => {
+export const CategoryFilter = ({ categories }: { categories: Category[] }) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
-    
-    const [categories, setCategories] = useState<{id: string, name: string, slug: string}[]>([]);
-    
-    useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/categories`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(JSON.stringify(data.data))
-                setCategories(data.data || [])
-            })
-            .catch(err => Sentry.captureException(err));
-    }, []);
 
     const isCategoryPage = pathname.startsWith('/blog/category/');
     const currentCategorySlug = isCategoryPage ? pathname.split('/').pop() : null;

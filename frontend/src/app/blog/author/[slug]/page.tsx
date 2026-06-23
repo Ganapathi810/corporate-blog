@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import * as Sentry from "@sentry/nextjs";
 import { AuthorPostsClient } from "@/components/blogs-page/author-posts-client";
 import { fetchPosts } from "@/lib/db/fetch-posts";
+import { Suspense } from "react";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
 
@@ -129,19 +130,23 @@ export default async function AuthorPage({
     return (
         <div className="pb-20">
             <SchemaOrg schema={[personSchema, breadcrumbSchema]} />
-            <SearchBar />
+            <Suspense fallback={<div>Loading seach bar...</div>}>
+                <SearchBar />
+            </Suspense>
             <Filters />
             <div className="mt-8">
                 <h2 className="text-2xl font-semibold px-4 md:px-0 max-w-6xl mx-auto mb-6">
                     Articles by <span className="text-blue-600">{author.name}</span>
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                    <GridSuspense>
-                        <AuthorPostsClient 
-                            authorSlug={authorSlug}
-                            initialPosts={intialPosts}
-                          />
-                    </GridSuspense>
+                    <Suspense fallback={<PostsList posts={intialPosts} />}>
+                        <GridSuspense>
+                            <AuthorPostsClient 
+                                authorSlug={authorSlug}
+                                initialPosts={intialPosts}
+                            />
+                        </GridSuspense>
+                    </Suspense>
                 </div>
             </div>
         </div>
