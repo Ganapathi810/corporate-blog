@@ -26,6 +26,7 @@ export const BlogPost = ({ post }: BlogPostProps) => {
             <div className="group cursor-pointer">
                 <div className="relative overflow-hidden rounded">
                     <Image 
+                        priority
                         src={post.bannerImage?.url || ""} 
                         alt={post.title} 
                         className="w-full h-48 object-cover rounded group-hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -41,6 +42,7 @@ export const BlogPost = ({ post }: BlogPostProps) => {
                 <p className="mt-2 text-sm text-gray-600 line-clamp-3">{displayExcerpt}</p>
                 <div className="mt-4 flex items-center gap-2">
                     <Image
+                        priority
                         src={post.author?.image || '/favicon.ico'}
                         alt={post.author?.name || "Author not found"}
                         className="w-8 h-8 rounded-full object-cover"
