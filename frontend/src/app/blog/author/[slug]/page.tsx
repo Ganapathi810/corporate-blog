@@ -1,6 +1,7 @@
 import { PostsList } from "@/components/blogs-page/posts";
 import { Filters } from "@/components/blogs-page/filters";
 import { SearchBar } from "@/components/searchbar";
+import { SearchBarSkeleton } from "@/components/searchbar-skeleton";
 import { GridSuspense } from "@/components/blogs-page/grid-suspense";
 import { BlogNotFound } from "@/components/blogs-page/blog-not-found";
 import { SchemaOrg } from "@/components/schema-org";
@@ -130,7 +131,7 @@ export default async function AuthorPage({
     return (
         <div className="pb-20">
             <SchemaOrg schema={[personSchema, breadcrumbSchema]} />
-            <Suspense fallback={<div>Loading seach bar...</div>}>
+            <Suspense fallback={<SearchBarSkeleton />}>
                 <SearchBar />
             </Suspense>
             <Filters />

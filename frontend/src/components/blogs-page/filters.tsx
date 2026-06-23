@@ -1,6 +1,8 @@
 import { Category } from "@/types/Category";
 import { CategoryFilter } from "../category-filter"
+import { CategoryFilterSkeleton } from "../category-filter-skeleton"
 import { SortDropdown } from "../sort-dropdown"
+import { SortDropdownSkeleton } from "../sort-dropdown-skeleton"
 import * as Sentry from "@sentry/nextjs";
 import { Suspense } from "react";
 
@@ -22,10 +24,10 @@ export const Filters = async () => {
     return (
         <div className="flex items-center justify-end mt-4">
             <div className="flex items-center gap-9">
-                <Suspense fallback={<div>Loading category filter...</div>}>
+                <Suspense fallback={<CategoryFilterSkeleton />}>
                     <CategoryFilter categories={categories} />
                 </Suspense>
-                <Suspense fallback={<div>Loading sortBy filter...</div>}>
+                <Suspense fallback={<SortDropdownSkeleton />}>
                     <SortDropdown />
                 </Suspense>
             </div>
