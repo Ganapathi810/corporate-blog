@@ -60,7 +60,7 @@ export const CategoryFilter = () => {
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
             <label htmlFor="category-filter" className="flex items-center gap-1.5">
                 <Tag className="size-4" />
-                <span>Category:</span>
+                <span className="font-semibold">Category:</span>
             </label>
             <div className="relative group">
                 <select 
