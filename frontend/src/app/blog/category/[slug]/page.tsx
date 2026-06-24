@@ -1,7 +1,6 @@
 import { PostsList } from "@/components/blogs-page/posts";
 import { Filters } from "@/components/blogs-page/filters";
 import { SearchBar } from "@/components/searchbar";
-import { GridSuspense } from "@/components/blogs-page/grid-suspense";
 import { BlogNotFound } from "@/components/blogs-page/blog-not-found";
 import { SchemaOrg } from "@/components/schema-org";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
@@ -175,12 +174,10 @@ export default async function CategoryPage({
                     <span className="text-blue-600">{category.name}</span>
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                    <GridSuspense>
                         <CategoryPostsGrid
                             categorySlug={categorySlug}
                             searchParamsPromise={searchParams}
                         />
-                    </GridSuspense>
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
 import { PostsList } from "@/components/blogs-page/posts";
 import { Filters } from "@/components/blogs-page/filters";
 import { SearchBar } from "@/components/searchbar";
-import { GridSuspense } from "@/components/blogs-page/grid-suspense";
 import { SchemaOrg } from "@/components/schema-org";
 import type { Metadata } from "next";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
@@ -133,9 +132,7 @@ export default function BlogsPage({
                     Blogs
                 </h2>
                 <div className="w-full max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                    <GridSuspense>
                         <BlogsGrid searchParamsPromise={searchParams} />
-                    </GridSuspense>
                 </div>
             </div>
         </div>
