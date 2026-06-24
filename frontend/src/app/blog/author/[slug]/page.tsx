@@ -140,7 +140,8 @@ export default async function AuthorPage({
                     Articles by <span className="text-blue-600">{author.name}</span>
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                    <Suspense fallback={<PostsList posts={initialPosts} />}>
+                    <PostsList posts={initialPosts} />
+                    <Suspense fallback={null}>
                             <AuthorPostsClient 
                                 authorSlug={authorSlug}
                                 initialPosts={initialPosts}

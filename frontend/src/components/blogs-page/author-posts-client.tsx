@@ -67,6 +67,8 @@ export function AuthorPostsClient({
 
         loadPosts();
     },[search, category, sort, authorSlug, hasFilters])
+
+    if (!hasFilters) return null;
     
     return loading ? <PostGridSkeleton /> : <PostsList posts={posts as any} hasFilters={hasFilters} />;
 }
