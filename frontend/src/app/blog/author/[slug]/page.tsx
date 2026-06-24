@@ -96,8 +96,10 @@ export default async function AuthorPage({
     params: Promise<{ slug: string }>;
 }) {
     const authorSlug = (await params).slug;
-    const author = await fetchAuthor(authorSlug);
-    const intialPosts = await fetchPosts(authorSlug, {})
+    const authorPromise = fetchAuthor(authorSlug);
+    const initialPostsPromise = fetchPosts(authorSlug, {})
+
+    const [author, initialPosts] = await Promise.all([authorPromise, initialPostsPromise])
 
     if (!author) {
         return <BlogNotFound type="author" />;
@@ -140,11 +142,11 @@ export default async function AuthorPage({
                     Articles by <span className="text-blue-600">{author.name}</span>
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                    <Suspense fallback={<PostsList posts={intialPosts} />}>
+                    <Suspense fallback={<PostsList posts={initialPosts} />}>
                         <GridSuspense>
                             <AuthorPostsClient 
                                 authorSlug={authorSlug}
-                                initialPosts={intialPosts}
+                                initialPosts={initialPosts}
                             />
                         </GridSuspense>
                     </Suspense>
