@@ -96,6 +96,7 @@ export default async function AuthorPage({
     params: Promise<{ slug: string }>;
 }) {
     const authorSlug = (await params).slug;
+
     const authorPromise = fetchAuthor(authorSlug);
     const initialPostsPromise = fetchPosts(authorSlug, {})
 
@@ -143,12 +144,12 @@ export default async function AuthorPage({
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
                     <Suspense fallback={<PostsList posts={initialPosts} />}>
-                        <GridSuspense>
+                        {/* <GridSuspense> */}
                             <AuthorPostsClient 
                                 authorSlug={authorSlug}
                                 initialPosts={initialPosts}
                             />
-                        </GridSuspense>
+                        {/* </GridSuspense> */}
                     </Suspense>
                 </div>
             </div>
