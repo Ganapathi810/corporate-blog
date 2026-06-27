@@ -1,11 +1,15 @@
 import { PostsList } from "@/components/blogs-page/posts";
 import { Filters } from "@/components/blogs-page/filters";
 import { SearchBar } from "@/components/searchbar";
+import { SearchBarSkeleton } from "@/components/searchbar-skeleton";
 import { BlogNotFound } from "@/components/blogs-page/blog-not-found";
 import { SchemaOrg } from "@/components/schema-org";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
 import type { Metadata } from "next";
 import * as Sentry from "@sentry/nextjs";
+import { CategoryPostsClient } from "@/components/blogs-page/category-posts-client";
+import { fetchPosts } from "@/lib/db/fetch-posts";
+import { Suspense } from "react";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
 
@@ -35,38 +39,6 @@ async function fetchCategory(slug: string) {
     } catch (error) {
         Sentry.captureException(error)
         return null;
-    }
-}
-
-async function fetchPosts(
-    categorySlug: string,
-    params: { search?: string; category?: string; sort?: string }
-) {
-    try {
-        const query = new URLSearchParams({
-            status: "PUBLISHED",
-            limit: "20",
-            sortBy: params.sort === "oldest" ? "oldest" : "latest",
-        });
-
-        if (params.category) {
-            query.append("categoryId", params.category);
-        } else {
-            query.append("categorySlug", categorySlug);
-        }
-
-        if (params.search) query.append("search", params.search);
-
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts?${query.toString()}`,
-            { next: { revalidate: 900 } }
-        );
-        if (!res.ok) return [];
-        const result = await res.json();
-        return result.data || [];
-    } catch (error) {
-        Sentry.captureException(error)
-        return [];
     }
 }
 
@@ -111,28 +83,17 @@ export async function generateMetadata({
     };
 }
 
-async function CategoryPostsGrid({
-    categorySlug,
-    searchParamsPromise,
-}: {
-    categorySlug: string;
-    searchParamsPromise: Promise<{ search?: string; category?: string; sort?: string }>;
-}) {
-    const params = await searchParamsPromise;
-    const posts = await fetchPosts(categorySlug, params);
-    const hasFilters = !!(params.search || params.category);
-    return <PostsList posts={posts as any} hasFilters={hasFilters} />;
-}
-
 export default async function CategoryPage({
     params,
-    searchParams,
 }: {
     params: Promise<{ slug: string }>;
-    searchParams: Promise<{ search?: string; category?: string; sort?: string }>;
 }) {
     const categorySlug = (await params).slug;
-    const category = await fetchCategory(categorySlug);
+
+    const categoryPromise = fetchCategory(categorySlug);
+    const initialPostsPromise = fetchPosts(categorySlug, {}, "category");
+
+    const [category, initialPosts] = await Promise.all([categoryPromise, initialPostsPromise]);
 
     if (!category) {
         return <BlogNotFound type="category" />;
@@ -166,7 +127,9 @@ export default async function CategoryPage({
     return (
         <div className="pb-20">
             <SchemaOrg schema={[collectionPageSchema, breadcrumbSchema]} />
-            <SearchBar />
+            <Suspense fallback={<SearchBarSkeleton />}>
+                <SearchBar />
+            </Suspense>
             <Filters />
             <div className="mt-8">
                 <h2 className="text-2xl font-semibold px-4 md:px-0 max-w-6xl mx-auto mb-6">
@@ -174,10 +137,13 @@ export default async function CategoryPage({
                     <span className="text-blue-600">{category.name}</span>
                 </h2>
                 <div className="max-w-6xl mx-auto px-4 md:px-0 min-h-[400px]">
-                        <CategoryPostsGrid
-                            categorySlug={categorySlug}
-                            searchParamsPromise={searchParams}
-                        />
+                    <PostsList posts={initialPosts} />
+                    <Suspense fallback={null}>
+                            <CategoryPostsClient 
+                                categorySlug={categorySlug}
+                                initialPosts={initialPosts}
+                            />
+                    </Suspense>
                 </div>
             </div>
         </div>

@@ -1,16 +1,23 @@
 import * as Sentry from "@sentry/nextjs";
 
 export async function fetchPosts(
-    authorSlug: string,
-    params: { search?: string; category?: string; sort?: string }
+    slug: string,
+    params: { search?: string; category?: string; sort?: string },
+    type: "author" | "category" = "author"
 ) {
     try {
         const query = new URLSearchParams({
             status: "PUBLISHED",
             limit: "20",
             sortBy: params.sort === "oldest" ? "oldest" : "latest",
-            authorSlug,
         });
+
+        if (type === "author") {
+            query.append("authorSlug", slug);
+        } else {
+            query.append("categorySlug", slug);
+        }
+
         if (params.category) query.append("categoryId", params.category);
         if (params.search) query.append("search", params.search);
 
@@ -25,4 +32,4 @@ export async function fetchPosts(
         Sentry.captureException(error)
         return [];
     }
-}
+}
