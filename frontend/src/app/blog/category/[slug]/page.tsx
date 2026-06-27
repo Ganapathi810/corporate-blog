@@ -2,7 +2,6 @@ import { PostsList } from "@/components/blogs-page/posts";
 import { Filters } from "@/components/blogs-page/filters";
 import { SearchBar } from "@/components/searchbar";
 import { SearchBarSkeleton } from "@/components/searchbar-skeleton";
-import { BlogNotFound } from "@/components/blogs-page/blog-not-found";
 import { SchemaOrg } from "@/components/schema-org";
 import { siteConfig, absoluteUrl } from "@/lib/seo.config";
 import type { Metadata } from "next";
@@ -10,6 +9,7 @@ import * as Sentry from "@sentry/nextjs";
 import { CategoryPostsClient } from "@/components/blogs-page/category-posts-client";
 import { fetchPosts } from "@/lib/db/fetch-posts";
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
 
@@ -51,10 +51,7 @@ export async function generateMetadata({
     const category = await fetchCategory(slug);
 
     if (!category) {
-        return {
-            title: "Category Not Found",
-            robots: { index: false, follow: false },
-        };
+        notFound();
     }
 
     const canonicalUrl = absoluteUrl(`/blog/category/${slug}`);
@@ -96,7 +93,7 @@ export default async function CategoryPage({
     const [category, initialPosts] = await Promise.all([categoryPromise, initialPostsPromise]);
 
     if (!category) {
-        return <BlogNotFound type="category" />;
+        notFound()
     }
 
     const canonicalUrl = absoluteUrl(`/blog/category/${categorySlug}`);

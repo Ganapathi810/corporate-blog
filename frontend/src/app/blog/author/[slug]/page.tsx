@@ -10,6 +10,7 @@ import * as Sentry from "@sentry/nextjs";
 import { AuthorPostsClient } from "@/components/blogs-page/author-posts-client";
 import { fetchPosts } from "@/lib/db/fetch-posts";
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 export const revalidate = 900; // ISR: revalidate every 15 minutes
 
@@ -53,10 +54,7 @@ export async function generateMetadata({
     const author = await fetchAuthor(slug);
 
     if (!author) {
-        return {
-            title: "Author Not Found",
-            robots: { index: false, follow: false },
-        };
+        notFound()
     }
 
     const canonicalUrl = absoluteUrl(`/blog/author/${slug}`);
@@ -100,7 +98,7 @@ export default async function AuthorPage({
     const [author, initialPosts] = await Promise.all([authorPromise, initialPostsPromise])
 
     if (!author) {
-        return <BlogNotFound type="author" />;
+        notFound()
     }
 
     const canonicalUrl = absoluteUrl(`/blog/author/${authorSlug}`);
