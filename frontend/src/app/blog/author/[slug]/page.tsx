@@ -50,6 +50,7 @@ export async function generateMetadata({
 }: {
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+    console.log("metadata for author page")
     const slug = (await params).slug;
     const author = await fetchAuthor(slug);
 

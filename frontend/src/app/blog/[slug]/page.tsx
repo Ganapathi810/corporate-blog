@@ -62,6 +62,7 @@ export async function generateMetadata({
 }: {
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+    console.log("Metadata for post page")
     const slug = (await params).slug;
     const post = await getPostBySlug(slug);
 

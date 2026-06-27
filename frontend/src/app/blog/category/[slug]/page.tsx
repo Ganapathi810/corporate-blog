@@ -47,6 +47,7 @@ export async function generateMetadata({
 }: {
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+    console.log("metadata for category page")
     const slug = (await params).slug;
     const category = await fetchCategory(slug);
 
