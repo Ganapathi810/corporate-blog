@@ -1,10 +1,10 @@
 "use client"
 
-import { UserX, Tag, ArrowLeft } from "lucide-react"
+import { UserX, Tag, ArrowLeft, StickyNote } from "lucide-react"
 import Link from "next/link"
 
 interface BlogNotFoundProps {
-    type: "author" | "category"
+    type: "author" | "category" | "post"
     slug?: string
 }
 
@@ -16,20 +16,24 @@ export const BlogNotFound = ({ type }: BlogNotFoundProps) => {
                 <div className="relative bg-white p-5 rounded-xl shadow-xl shadow-blue-500/5 border border-blue-50/50">
                     {type === "author" ? (
                         <UserX className="size-10 text-blue-600 stroke-[1.5]" />
-                    ) : (
+                    ) : type === "category" ? (
                         <Tag className="size-10 text-blue-600 stroke-[1.5]" />
+                    ) : (
+                        <StickyNote className="size-10 text-blue-600 stroke-[1.5]" />
                     )}
                 </div>
             </div>
             
             <h1 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">
-                {type === "author" ? "Author not found" : "Category not found"}
+                {type === "author" ? "Author not found" : type === "category" ? "Category not found" : "Post not found"}
             </h1>
             
             <p className="text-slate-500 max-w-sm mx-auto mb-8 leading-relaxed text-sm">
                 {type === "author" 
                     ? "The author you're looking for doesn't exist or has been removed. Check the URL or browse other articles."
-                    : "The category you're looking for doesn't exist. It might have been renamed or deleted."}
+                    : type === "category" 
+                    ? "The category you're looking for doesn't exist. It might have been renamed or deleted."
+                    : "The post you're looking for doesn't exist. It might have been moved or deleted."}
             </p>
             
             <Link

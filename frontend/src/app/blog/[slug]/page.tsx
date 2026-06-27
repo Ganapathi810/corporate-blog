@@ -66,11 +66,7 @@ export async function generateMetadata({
     const post = await getPostBySlug(slug);
 
     if (!post) {
-        return {
-            title: "Post Not Found",
-            description: "The requested blog post could not be found.",
-            robots: { index: false, follow: false },
-        };
+        notFound()
     }
 
     const canonicalUrl = absoluteUrl(`/blog/${slug}`);
