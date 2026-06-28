@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { Search, X, Loader2, FileText, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { useDebounce } from "@/hooks/use-debounce"
 
 /**
  * SearchBar — Production-ready with stable routing.
@@ -24,7 +25,10 @@ export const SearchBar = () => {
     const inputRef = useRef<HTMLInputElement>(null)
     const shouldFocus = searchParams.get('focus') === 'true'
 
-    // 2. Sync input state when URL changes externally (e.g. from "Clear all filters")
+    // 2. Debounce the input value for URL updates & preview fetches
+    const debouncedSearch = useDebounce(inputValue, 400)
+
+    // 3. Sync input state when URL changes externally (e.g. from "Clear all filters")
     useEffect(() => {
         const urlSearch = searchParams.get('search') || ""
         if (urlSearch !== inputValue) {
@@ -38,23 +42,19 @@ export const SearchBar = () => {
         }
     }, [shouldFocus])
 
-    // 3. Debounced URL update - only triggers when local state changes
+    // 4. URL update — fires only when debounced value settles
     useEffect(() => {
         // Only trigger update if the value has actually changed from what's in the URL
-        if (inputValue === (searchParams.get('search') || "")) return
+        if (debouncedSearch === (searchParams.get('search') || "")) return
 
-        const timer = setTimeout(() => {
-            const params = new URLSearchParams(searchParams.toString())
-            if (inputValue) {
-                params.set('search', inputValue)
-            } else {
-                params.delete('search')
-            }
-            replace(`${pathname}?${params.toString()}`, { scroll: false })
-        }, 300)
-
-        return () => clearTimeout(timer)
-    }, [inputValue, pathname, replace]) // searchParams intentionally omitted to break infinite loop
+        const params = new URLSearchParams(searchParams.toString())
+        if (debouncedSearch) {
+            params.set('search', debouncedSearch)
+        } else {
+            params.delete('search')
+        }
+        replace(`${pathname}?${params.toString()}`, { scroll: false })
+    }, [debouncedSearch, pathname, replace]) // searchParams intentionally omitted to break infinite loop
 
     // --- PREVIEW LOGIC ---
     const [previews, setPreviews] = useState<any[]>([])
@@ -62,20 +62,29 @@ export const SearchBar = () => {
     const [showDropdown, setShowDropdown] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(-1)
     const containerRef = useRef<HTMLDivElement>(null)
+    const abortControllerRef = useRef<AbortController | null>(null)
 
-    // Fetch previews
+    // Fetch previews — uses debounced value to avoid per-keystroke API calls
     useEffect(() => {
-        const query = inputValue.trim()
+        const query = debouncedSearch.trim()
         if (query.length < 2) {
             setPreviews([])
             setShowDropdown(false)
             return
         }
 
-        const fetchTimer = setTimeout(async () => {
+        // Cancel any in-flight request
+        abortControllerRef.current?.abort()
+        const controller = new AbortController()
+        abortControllerRef.current = controller
+
+        async function fetchPreviews() {
             setIsLoading(true)
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts?search=${encodeURIComponent(query)}&limit=5&status=PUBLISHED`)
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts?search=${encodeURIComponent(query)}&limit=5&status=PUBLISHED`,
+                    { signal: controller.signal }
+                )
                 if (res.ok) {
                     const data = await res.json()
                     setPreviews(data.data || [])
@@ -83,14 +92,22 @@ export const SearchBar = () => {
                     setSelectedIndex(-1)
                 }
             } catch (error) {
+                if (error instanceof DOMException && error.name === "AbortError") return
                 Sentry.captureException(error)
             } finally {
-                setIsLoading(false)
+                if (!controller.signal.aborted) {
+                    setIsLoading(false)
+                }
             }
-        }, 300)
+        }
 
-        return () => clearTimeout(fetchTimer)
-    }, [inputValue])
+        fetchPreviews()
+
+        return () => controller.abort()
+    }, [debouncedSearch])
+
+    // Show loading spinner immediately when user types (before debounce settles)
+    const isTyping = inputValue.trim().length >= 2 && inputValue !== debouncedSearch
 
     // Click outside handler
     useEffect(() => {
@@ -163,7 +180,7 @@ export const SearchBar = () => {
                 />
                 
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    {isLoading && <Loader2 className="size-4 text-[#414BEA] animate-spin" />}
+                    {(isLoading || isTyping) && <Loader2 className="size-4 text-[#414BEA] animate-spin" />}
                     {inputValue && (
                         <button 
                             onClick={handleClear}
