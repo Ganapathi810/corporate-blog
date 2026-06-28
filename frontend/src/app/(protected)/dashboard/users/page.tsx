@@ -12,6 +12,7 @@ import {
 import { TableSkeleton } from "@/components/dashboard/skeletons"
 import { Tooltip } from "@/components/ui/tooltip"
 import { ConfirmModal } from "@/components/dashboard/shared"
+import { Metadata } from "next"
 
 type UserRole = "ADMIN" | "EDITOR" | "WRITER"
 
@@ -21,6 +22,15 @@ interface User {
     email: string
     role: UserRole
     createdAt: string
+}
+
+export const metadata: Metadata = {
+    title: "Manage Users | Dashboard",
+    description: "Manage users | Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+    }
 }
 
 export default function UsersPage() {

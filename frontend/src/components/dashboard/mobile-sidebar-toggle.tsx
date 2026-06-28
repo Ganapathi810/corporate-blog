@@ -11,6 +11,7 @@ export const MobileSidebarToggle = () => {
     return (
         <button
             onClick={() => setOpen(true)}
+            aria-label="open sidebar menu"
             className="cursor-pointer md:hidden p-2 mr-2 text-white hover:bg-white/10 rounded-md transition-colors"
         >
             <Menu className="size-6" />

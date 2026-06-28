@@ -10,6 +10,16 @@ import {
     CheckCircle2, XCircle
 } from "lucide-react"
 import { TableSkeleton } from "@/components/dashboard/skeletons"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Monitor Audit Logs | Dashboard",
+    description: "Monitor Audit Logs | Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+    }
+}
 
 export default function AuditLogsPage() {
     const { data: session, isPending } = useSession()

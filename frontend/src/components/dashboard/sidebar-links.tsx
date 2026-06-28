@@ -24,6 +24,7 @@ export const SidebarLinks = ({ role }: Props) => {
                 const content = (
                     <Link
                         href={link.href}
+                        aria-lable={open ? link.label : undefined}
                         className={clsx(
                             "flex items-center px-2 py-2 text-sm rounded-md text-white hover:bg-white/10 transition-colors duration-150 w-full",
                             open ? "gap-2" : "justify-center",
@@ -31,9 +32,13 @@ export const SidebarLinks = ({ role }: Props) => {
                         )}
                     >
                         <Icon className="size-5 shrink-0" />
-                        {open && (
-                            <span className="whitespace-nowrap overflow-hidden">{link.label}</span>
-                        )}
+                        <span
+                            className={clsx(
+                                open ? "whitespace-nowrap overflow-hidden" : "sr-only"
+                            )}
+                        >
+                            {link.label}
+                        </span>
                     </Link>
                 );
 

@@ -10,7 +10,11 @@ export const BaseTopbar = ({ children, startNode, hideLogo, showBlogLink }: { ch
             <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                     {startNode}
-                    <Link href={'/'} className="flex items-center gap-2">
+                    <Link 
+                        aria-label="Corporate Blog home" 
+                        href={'/'} 
+                        className="flex items-center gap-2"
+                    >
                         {!hideLogo && <Image src={'/favicon.ico'} height={28} width={28} alt="logo" />}
                         <span className="text-xl font-bold text-white hidden sm:block">Corporate Blog</span>
                     </Link>

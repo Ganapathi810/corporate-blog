@@ -10,6 +10,16 @@ import { useParams, useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useSession } from "@/lib/auth-client"
 import { EditorSkeleton } from "@/components/dashboard/skeletons"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Edit Post | Dashboard",
+    description: "Edit Post | Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+    }
+}
 
 export default function EditPostPage() {
     const params = useParams()

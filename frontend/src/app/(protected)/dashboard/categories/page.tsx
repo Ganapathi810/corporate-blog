@@ -9,7 +9,16 @@ import {
 } from "lucide-react"
 import { Skeleton } from "@/components/dashboard/skeletons"
 import { ConfirmModal } from "@/components/dashboard/shared"
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Manage Categories | Dashboard",
+    description: "Manage categories | Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+    }
+}
 export default function CategoriesPage() {
     const { data: session, isPending } = useSession()
     const router = useRouter()

@@ -9,7 +9,7 @@ import { useSession } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { 
     CheckCircle2, Clock, FileText, XCircle, 
-    TrendingUp, ArrowRight, Plus, Activity,
+    TrendingUp, Plus,
     Pencil, Trash2, PenLine, Send, RefreshCw,
     Eye, Check, X
 } from "lucide-react"

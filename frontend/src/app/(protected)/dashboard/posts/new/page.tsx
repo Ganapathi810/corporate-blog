@@ -9,6 +9,16 @@ import { PostPreview } from "@/components/post-detail-page/post-preview"
 import { Loader2, CheckCircle2, Pencil, Eye } from "lucide-react"
 import { toast } from "sonner"
 import { useSession } from "@/lib/auth-client"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Create Post | Dashboard",
+    description: "Create Post | Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+    }
+}
 
 export default function CreatePostPage() {
     const router = useRouter()
